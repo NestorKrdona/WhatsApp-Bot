@@ -1,0 +1,448 @@
+<!DOCTYPE html><html><head>
+      <title>doc</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h2 id="índice">Índice </h2>
+<ol>
+<li><a href="#introduccion">Introducción</a></li>
+<li><a href="#arquitectura">Arquitectura General y Sectorización del Código</a>
+<ol>
+<li><a href="#estructura">Estructura de Carpetas y Responsabilidades</a></li>
+<li><a href="#flujo-visual">Flujo General y Diagrama Visual</a></li>
+</ol>
+</li>
+<li><a href="#conexion">Conexión y Configuración</a></li>
+<li><a href="#formato">Formato de Mensajes y Protocolo</a></li>
+<li><a href="#validaciones">Validaciones y Reglas de Negocio</a></li>
+<li><a href="#flujo">Flujo de Estados y Notificaciones</a></li>
+<li><a href="#ejemplos">Ejemplos de Requests y Responses</a></li>
+<li><a href="#pruebas">Casos de Prueba y QA</a></li>
+<li><a href="#recomendaciones">Recomendaciones para Clientes y Buenas Prácticas</a></li>
+<li><a href="#errores">Errores Comunes, Manejo y Troubleshooting</a>
+<ol>
+<li><a href="#manejo-errores">Manejo de Errores y Logs</a></li>
+<li><a href="#ejemplos-logs">Ejemplos de Logs y Respuestas</a></li>
+</ol>
+</li>
+<li><a href="#seguridad">Notas de Seguridad y Privacidad</a></li>
+<li><a href="#multi-navegador">Soporte Multi-Navegador y Escalabilidad</a></li>
+<li><a href="#monitoreo">Monitoreo, Logs y Auditoría</a>
+<ol>
+<li><a href="#auditoria">Buenas Prácticas de Auditoría</a></li>
+</ol>
+</li>
+<li><a href="#despliegue">Despliegue y Operación en Producción</a>
+<ol>
+<li><a href="#pasos-despliegue">Pasos Detallados de Despliegue</a></li>
+<li><a href="#supervision">Supervisión y Backups</a></li>
+</ol>
+</li>
+<li><a href="#faq">Preguntas Frecuentes (FAQ)</a></li>
+<li><a href="#contacto">Contacto y Soporte</a></li>
+</ol>
+<hr>
+<h2 id="1-a-nameintroduccionaintroducción">1. <a name="introduccion" href=""></a>Introducción </h2>
+<p>El WebSocket WhatsAppBot es un microservicio que permite enviar mensajes y archivos PDF a través de WhatsApp Web de manera automatizada, gestionando una cola de tickets y notificando al cliente en cada etapa del proceso. Es ideal para integraciones, bots, notificaciones y sistemas de atención.</p>
+<hr>
+<h2 id="2-a-namearquitecturaaarquitectura-general-y-sectorización-del-código">2. <a name="arquitectura" href=""></a>Arquitectura General y Sectorización del Código </h2>
+<h3 id="21-a-nameestructuraaestructura-de-carpetas-y-responsabilidades">2.1. <a name="estructura" href=""></a>Estructura de Carpetas y Responsabilidades </h3>
+<ul>
+<li><strong>Whatsapp/</strong> (raíz):
+<ul>
+<li><code>main.py</code>, <code>socket_server.py</code>, <code>socket_client.py</code>: scripts principales para iniciar el servidor, cliente y pruebas locales.</li>
+<li><code>.gitignore</code>, <code>setup.cfg</code>, <code>.coverage</code>: archivos de configuración y control de versiones.</li>
+</ul>
+</li>
+<li><strong>core/</strong>: Lógica central del sistema.
+<ul>
+<li><code>ticket.py</code>: definición y gestión de tickets.</li>
+<li><code>utils.py</code>: utilidades generales.</li>
+</ul>
+</li>
+<li><strong>modules/</strong>: Funcionalidades específicas y auxiliares.
+<ul>
+<li><code>web_manager.py</code>: gestión de navegador y automatización con Selenium.</li>
+<li><code>queue_manager.py</code>: gestión de la cola FIFO de tickets.</li>
+<li><code>browser_profiles/</code>, <code>chrome_profiles/</code>: perfiles persistentes de navegador.</li>
+</ul>
+</li>
+<li><strong>server/</strong>: Implementación del servidor WebSocket y lógica de procesamiento.
+<ul>
+<li><code>ws_server.py</code>: servidor WebSocket, gestión de conexiones, notificaciones y procesamiento de tickets.</li>
+</ul>
+</li>
+<li><strong>tests/</strong>: Pruebas unitarias y de integración.
+<ul>
+<li><code>test_*.py</code>: pruebas para cada módulo principal.</li>
+</ul>
+</li>
+</ul>
+<h4 id="resumen-de-responsabilidades">Resumen de Responsabilidades </h4>
+<ul>
+<li><strong><a href="http://main.py">main.py</a> / socket_server.py</strong>: Arranque del servidor, gestión de conexiones y ciclo principal.</li>
+<li><strong>core/</strong>: Lógica de negocio, controladores de sesión, utilidades generales.</li>
+<li><strong>modules/</strong>: Validación, manejo de archivos, integración con Selenium y gestión de la cola.</li>
+<li><strong>server/</strong>: Implementación de la cola de tickets, notificaciones y procesamiento de tickets.</li>
+<li><strong>tests/</strong>: Pruebas automáticas para asegurar la calidad del sistema.</li>
+</ul>
+<h3 id="22-a-nameflujo-visualaflujo-general-y-diagrama-visual">2.2. <a name="flujo-visual" href=""></a>Flujo General y Diagrama Visual </h3>
+<p><img src="img/FlujoGeneralYDiagramaVisual.png" alt="Flujo general y diagrama visual"></p>
+<hr>
+<h2 id="23-diagrama-de-componentes-de-la-arquitectura">2.3. Diagrama de Componentes de la Arquitectura </h2>
+<p><img src="img/DiagramaDeComponentesDeLaArquitectura.png" alt="Componentes de la arquitectura"></p>
+<hr>
+<h2 id="3-a-nameconexionaconexión-y-configuración">3. <a name="conexion" href=""></a>Conexión y Configuración </h2>
+<h3 id="configuración-del-servidor"><strong>Configuración del Servidor</strong> </h3>
+<ul>
+<li><strong>Host</strong>: <code>0.0.0.0</code> (todas las interfaces)</li>
+<li><strong>Puerto</strong>: <code>3060</code> (configurable)</li>
+<li><strong>Navegador</strong>: <code>"chrome"</code>, <code>"firefox"</code> o <code>"edge"</code></li>
+<li><strong>IP de acceso</strong>: <code>192.168.2.90</code> (debe estar conectado a la VPN interna de la empresa para ser accesible)</li>
+</ul>
+<p><strong>Ejemplo de inicialización:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>server <span class="token operator">=</span> WebSocketServer<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">3060</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-await">await</span> server<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre><h3 id="configuración-del-cliente"><strong>Configuración del Cliente</strong> </h3>
+<ul>
+<li><strong>Host</strong>: <code>192.168.2.90</code></li>
+<li><strong>Puerto</strong>: <code>3060</code></li>
+<li><strong>Protocolo</strong>: <code>ws://</code></li>
+<li><strong>VPN</strong>: El cliente debe estar conectado a la VPN interna de la empresa para acceder al servidor.</li>
+</ul>
+<p><strong>Ejemplo de conexión:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>ws://192.168.2.90:3060
+</code></pre><ul>
+<li>Si el cliente está en otra red, asegúrate de tener VPN interna o reglas de firewall adecuadas.</li>
+</ul>
+<hr>
+<h2 id="4-a-nameformatoaformato-de-mensajes-y-protocolo">4. <a name="formato" href=""></a>Formato de Mensajes y Protocolo </h2>
+<h3 id="request-cliente--servidor"><strong>Request (Cliente → Servidor):</strong> </h3>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"c1b2a3d4-5678-1234-9abc-abcdef123456"</span><span class="token punctuation">,</span>
+  <span class="token property">"metadata"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"phoneNumber"</span><span class="token operator">:</span> <span class="token string">"3027032694"</span><span class="token punctuation">,</span>
+    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Hola, este es un mensaje de prueba."</span><span class="token punctuation">,</span>
+    <span class="token property">"fileName"</span><span class="token operator">:</span> <span class="token string">"prueba.pdf"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"PDF"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">37</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token number">68</span><span class="token punctuation">,</span> <span class="token number">70</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span> <span class="token comment">// (opcional) lista de bytes del PDF</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>O bien, puedes enviar el PDF como base64:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"b1e2c3d4-5678-4abc-9def-1234567890ab"</span><span class="token punctuation">,</span>
+  <span class="token property">"metadata"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"phoneNumber"</span><span class="token operator">:</span> <span class="token string">"3027032694"</span><span class="token punctuation">,</span>
+    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Hola, este es un mensaje de prueba."</span><span class="token punctuation">,</span>
+    <span class="token property">"fileName"</span><span class="token operator">:</span> <span class="token string">"prueba.pdf"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"PDF"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token string">"JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRvYmoK..."</span> <span class="token comment">// (opcional) string base64</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><ul>
+<li><strong>id</strong>: (string, opcional pero recomendado) UUID único generado por el cliente para correlacionar respuestas.</li>
+<li><strong>metadata.phoneNumber</strong>: (string, requerido) Número de WhatsApp destino (solo dígitos, con código de país).</li>
+<li><strong>metadata.message</strong>: (string, requerido) Mensaje de texto a enviar.</li>
+<li><strong>metadata.fileName</strong>: (string, opcional) Nombre del archivo PDF.</li>
+<li><strong>PDF.data</strong>: (array de bytes o string base64, opcional) Contenido del PDF.</li>
+</ul>
+<h3 id="response-servidor--cliente"><strong>Response (Servidor → Cliente):</strong> </h3>
+<p>Mensajes de texto plano enviados en diferentes etapas, <strong>siempre incluyen el ID del ticket</strong>:</p>
+<ul>
+<li><code>🟢 Ticket encolado (ID: c1b2a3d4-5678-1234-9abc-abcdef123456). Hay N ticket(s) antes que el tuyo.</code></li>
+<li><code>🟡 Tu ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456) está siendo procesado.</code></li>
+<li><code>✅ Tu ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456) ha sido procesado y enviado.</code></li>
+<li>Mensajes de error con prefijo <code>⚠️</code> o <code>❌</code>, incluyendo el <code>id</code>.</li>
+</ul>
+<hr>
+<h2 id="5-a-namevalidacionesavalidaciones-y-reglas-de-negocio">5. <a name="validaciones" href=""></a>Validaciones y Reglas de Negocio </h2>
+<ul>
+<li>El mensaje debe ser un JSON válido.</li>
+<li><code>id</code> debe ser único por ticket (si no se envía, el servidor lo genera).</li>
+<li><code>metadata.phoneNumber</code> y <code>metadata.message</code> son obligatorios y deben ser strings.</li>
+<li>Si se incluye <code>PDF.data</code>, debe ser una lista de bytes <strong>o</strong> un string base64 válido.</li>
+<li>El tamaño máximo del mensaje es 10,000 caracteres.</li>
+<li>El nombre del archivo PDF se sanitiza y se le añade un timestamp para evitar colisiones.</li>
+<li>Si el PDF no puede ser guardado, se notifica con un error.</li>
+<li>El sistema soporta múltiples navegadores y maneja la sesión de WhatsApp Web de forma persistente.</li>
+<li>El PDF se elimina tras ser enviado, pero nunca antes de que el navegador lo procese.</li>
+</ul>
+<hr>
+<h2 id="6-a-nameflujoaflujo-de-estados-y-notificaciones">6. <a name="flujo" href=""></a>Flujo de Estados y Notificaciones </h2>
+<ol>
+<li><strong>Conexión:</strong> El cliente se conecta al WebSocket.</li>
+<li><strong>Envío:</strong> El cliente envía el mensaje JSON con los datos.</li>
+<li><strong>Encolado:</strong> El servidor responde con la posición en la cola y el <code>id</code> del ticket.</li>
+<li><strong>Procesando:</strong> El servidor notifica cuando el ticket está siendo procesado, incluyendo el <code>id</code>.</li>
+<li><strong>Finalizado:</strong> El servidor notifica cuando el ticket ha sido procesado y enviado, incluyendo el <code>id</code>.</li>
+<li><strong>Desconexión:</strong> El cliente puede cerrar la conexión tras recibir la confirmación final.</li>
+</ol>
+<hr>
+<h2 id="61-diagrama-de-flujo-de-estados-de-un-ticket">6.1. Diagrama de Flujo de Estados de un Ticket </h2>
+<p><img src="img/DiagramaDeFlujoDeEstadosDeUnTicket.png" alt="Flujo de estados de un ticket"></p>
+<hr>
+<h2 id="24-diagrama-de-interacción-de-módulos-internos">2.4. Diagrama de Interacción de Módulos Internos </h2>
+<p><img src="img/DiagramaDeInteracci%C3%B3nDeM%C3%B3dulosInternos.png" alt="Interacción de módulos internos"></p>
+<hr>
+<h2 id="7-a-nameejemplosaejemplos-de-requests-y-responses">7. <a name="ejemplos" href=""></a>Ejemplos de Requests y Responses </h2>
+<h3 id="ejemplo-de-response-flujo-típico"><strong>Ejemplo de Response (flujo típico):</strong> </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>🟢 Ticket encolado (ID: c1b2a3d4-5678-1234-9abc-abcdef123456). Hay 2 ticket(s) antes que el tuyo.
+🟡 Tu ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456) está siendo procesado.
+✅ Tu ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456) ha sido procesado y enviado.
+</code></pre><h3 id="ejemplo-de-error"><strong>Ejemplo de Error:</strong> </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>⚠️ 'phoneNumber' es obligatorio y debe ser string.
+</code></pre><hr>
+<h2 id="8-a-namepruebasacasos-de-prueba-y-qa">8. <a name="pruebas" href=""></a>Casos de Prueba y QA </h2>
+<h3 id="pruebas-funcionales-realizadas"><strong>Pruebas Funcionales realizadas</strong> </h3>
+<ul>
+<li><strong>Caso 1:</strong> Enviar solo mensaje de texto (sin PDF).</li>
+<li><strong>Caso 2:</strong> Enviar mensaje de texto + PDF válido (en bytes y en base64).</li>
+<li><strong>Caso 3:</strong> Enviar mensaje con campos faltantes (<code>phoneNumber</code>, <code>message</code>).</li>
+<li><strong>Caso 4:</strong> Enviar varios tickets desde diferentes clientes y verificar el orden de procesamiento y notificaciones (usando el campo <code>id</code>).</li>
+<li><strong>Caso 5:</strong> Enviar un PDF con el mismo nombre desde dos clientes distintos y verificar que ambos se procesan correctamente (gracias al timestamp).</li>
+<li><strong>Caso 6:</strong> Desconectar el cliente antes de que termine el procesamiento y verificar que el sistema no falla.</li>
+<li><strong>Caso 7:</strong> Probar con diferentes navegadores (Chrome, Firefox, Edge).</li>
+</ul>
+<hr>
+<h2 id="9-a-namerecomendacionesarecomendaciones-para-clientes-y-buenas-prácticas">9. <a name="recomendaciones" href=""></a>Recomendaciones para Clientes y Buenas Prácticas </h2>
+<ul>
+<li>Mantén la conexión WebSocket abierta hasta recibir la confirmación final (<code>✅</code>).</li>
+<li>Si usas otros lenguajes, puedes enviar el PDF como lista de bytes <strong>o</strong> como string base64 (ambos soportados).</li>
+<li>El campo <code>id</code> es altamente recomendado para correlacionar respuestas, especialmente si envías múltiples tickets simultáneos.</li>
+<li>Maneja los mensajes del servidor como texto plano (no JSON).</li>
+<li>Si necesitas enviar varios tickets, espera la confirmación antes de enviar el siguiente para evitar saturar la cola.</li>
+<li>Si el servidor está detrás de un firewall, asegúrate de abrir el puerto 3060.</li>
+<li>Implementa reintentos y manejo de reconexión en el cliente.</li>
+<li>Valida los datos antes de enviarlos para evitar rechazos por parte del servidor.</li>
+<li>Si el PDF es muy grande, considera comprimirlo antes de enviarlo.</li>
+<li>Si usas base64, asegúrate de que la cadena esté correctamente codificada y sin caracteres extraños.</li>
+</ul>
+<hr>
+<h2 id="10-a-nameerroresaerrores-comunes-y-troubleshooting">10. <a name="errores" href=""></a>Errores Comunes y Troubleshooting </h2>
+<h3 id="errores-de-validación"><strong>Errores de Validación</strong> </h3>
+<ul>
+<li><code>⚠️ Mensaje vacío.</code>: El mensaje enviado está vacío.</li>
+<li><code>⚠️ Mensaje demasiado grande.</code>: El mensaje supera el límite de tamaño.</li>
+<li><code>⚠️ Mensaje no es un JSON válido.</code>: El mensaje no es un JSON válido.</li>
+<li><code>⚠️ 'phoneNumber' es obligatorio y debe ser string.</code>: Falta el número o no es string.</li>
+<li><code>⚠️ 'PDF.data' debe ser una lista de bytes o un string base64.</code>: El PDF no está en el formato correcto.</li>
+<li><code>⚠️ 'PDF.data' no es base64 válido.</code>: El string base64 no es válido.</li>
+<li><code>⚠️ 'PDF.data' no es una lista de bytes válida.</code>: La lista de bytes no es válida.</li>
+</ul>
+<h3 id="errores-de-procesamiento"><strong>Errores de Procesamiento</strong> </h3>
+<ul>
+<li><code>⚠️ Error al guardar el PDF: ...</code>: El archivo PDF no pudo ser guardado.</li>
+<li><code>❌ [browser] Error al procesar ticket ...</code>: Error interno al enviar el mensaje o archivo.</li>
+</ul>
+<h3 id="problemas-de-conexión"><strong>Problemas de Conexión</strong> </h3>
+<ul>
+<li>El cliente no recibe notificaciones: Verifica que la conexión WebSocket siga abierta.</li>
+<li>El servidor no responde: Verifica que el puerto esté abierto y el servidor esté corriendo.</li>
+<li>El navegador no mantiene la sesión: Asegúrate de que el perfil es permanente y no temporal.</li>
+</ul>
+<h3 id="soluciones"><strong>Soluciones</strong> </h3>
+<ul>
+<li>Revisa los logs del servidor para más detalles.</li>
+<li>Usa herramientas como <code>wscat</code> o Postman para pruebas rápidas de WebSocket.</li>
+<li>Si el PDF no se adjunta, prueba con un archivo PDF generado por una herramienta confiable.</li>
+<li>Si usas base64, valida que la cadena esté bien formada.</li>
+<li><strong>Reinicia el script:</strong> Si encuentras un error no controlado o el sistema queda en un estado inconsistente, puedes mitigar rápidamente el problema deteniendo y volviendo a ejecutar el script del servidor (<code>main.py</code> o <code>socket_server.py</code>). Esto suele resolver bloqueos temporales o estados erróneos.</li>
+</ul>
+<hr>
+<h2 id="101-a-namemanejo-erroresamanejo-de-errores-y-logs">10.1. <a name="manejo-errores" href=""></a>Manejo de Errores y Logs </h2>
+<h3 id="qué-hacer-en-caso-de-errores">¿Qué hacer en caso de errores? </h3>
+<ol>
+<li>
+<p><strong>Errores de Validación</strong></p>
+<ul>
+<li>Revisa el mensaje de error recibido (por ejemplo, campo faltante, formato incorrecto).</li>
+<li>Corrige el JSON enviado por el cliente.</li>
+<li>Si el error es de base64, asegúrate de que el PDF esté correctamente codificado.</li>
+</ul>
+</li>
+<li>
+<p><strong>Errores de Procesamiento</strong></p>
+<ul>
+<li>Si el error menciona el navegador o Selenium, verifica que el navegador esté instalado y actualizado.</li>
+<li>Revisa que el WebDriver esté correctamente instalado y accesible.</li>
+<li>Si el error es al guardar el PDF, revisa permisos de escritura en la carpeta temporal.</li>
+</ul>
+</li>
+<li>
+<p><strong>Errores de Conexión</strong></p>
+<ul>
+<li>Verifica que el servidor esté corriendo y escuchando en el puerto correcto.</li>
+<li>Asegúrate de que el cliente esté conectado a la VPN si es necesario.</li>
+<li>Usa herramientas como <code>wscat</code> o Postman para probar la conexión WebSocket.</li>
+</ul>
+</li>
+<li>
+<p><strong>Errores de Sesión de WhatsApp</strong></p>
+<ul>
+<li>Si WhatsApp Web pide reautenticación, abre el navegador manualmente y escanea el QR.</li>
+<li>Si la sesión se pierde frecuentemente, revisa que el perfil del navegador sea persistente.</li>
+</ul>
+</li>
+</ol>
+<h3 id="logs-y-auditoría">Logs y Auditoría </h3>
+<ul>
+<li>
+<p><strong>Dónde encontrar los logs:</strong><br>
+Por defecto, los logs se muestran en consola.</p>
+</li>
+<li>
+<p><strong>Qué buscar en los logs:</strong></p>
+<ul>
+<li>Mensajes de error (<code>⚠️</code>, <code>❌</code>)</li>
+<li>Tiempos de procesamiento elevados (puede indicar saturación)</li>
+<li>Mensajes de confirmación de envío (<code>✅</code>)</li>
+<li>Eventos de conexión/desconexión de clientes</li>
+</ul>
+</li>
+<li>
+<p><strong>Cómo atender los logs:</strong></p>
+<ul>
+<li>Atiende primero los errores críticos (<code>❌</code>)</li>
+<li>Revisa los errores de validación para mejorar la calidad de los datos enviados por los clientes</li>
+<li>Si hay muchos tickets encolados, considera escalar el servicio</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="102-a-nameejemplos-logsaejemplos-de-logs-y-respuestas">10.2. <a name="ejemplos-logs" href=""></a>Ejemplos de Logs y Respuestas </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Cliente conectado desde 192.168.2.101
+Ticket encolado (ID: c1b2a3d4-5678-1234-9abc-abcdef123456). Hay 2 ticket(s) antes.
+Procesando ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456)
+SUCCESS: Ticket (ID: c1b2a3d4-5678-1234-9abc-abcdef123456) procesado y enviado.
+ERROR: 'phoneNumber' es obligatorio y debe ser string. (ID: 1234)
+ERROR: Error al guardar el PDF: Permiso denegado (ID: 5678)
+</code></pre><hr>
+<h2 id="103-diagrama-de-flujo-de-manejo-de-errores">10.3. Diagrama de Flujo de Manejo de Errores </h2>
+<p><img src="img/DiagramaDeFlujoDeManejoDeErrores.png" alt="Flujo de manejo de errores"></p>
+<hr>
+<h2 id="11-a-nameseguridadanotas-de-seguridad-y-privacidad">11. <a name="seguridad" href=""></a>Notas de Seguridad y Privacidad </h2>
+<ul>
+<li><strong>Autenticación:</strong> El sistema no implementa autenticación por defecto. Si se expone a internet, se recomienda agregar autenticación por token o IP.</li>
+<li><strong>Privacidad:</strong> Los archivos PDF y mensajes se eliminan tras ser enviados, pero pueden quedar temporales si el proceso se interrumpe.</li>
+<li><strong>Firewall:</strong> Limita el acceso al puerto 3060 solo a las IPs necesarias.</li>
+</ul>
+<hr>
+<h2 id="12-a-namemulti-navegadorasoporte-multi-navegador-y-escalabilidad">12. <a name="multi-navegador" href=""></a>Soporte Multi-Navegador y Escalabilidad </h2>
+<ul>
+<li>El sistema soporta <strong>Chrome</strong>, <strong>Firefox</strong> y <strong>Edge</strong>.</li>
+<li>Cada navegador usa un perfil persistente para mantener la sesión de WhatsApp Web.</li>
+<li>Es posible ejecutar múltiples instancias del servidor en diferentes puertos/nodos para escalar horizontalmente.</li>
+</ul>
+<hr>
+<h2 id="13-a-namemonitoreoamonitoreo-logs-y-auditoría">13. <a name="monitoreo" href=""></a>Monitoreo, Logs y Auditoría </h2>
+<ul>
+<li>Todos los eventos importantes se registran en consola (puedes redirigirlos a un archivo).</li>
+<li>Puedes agregar métricas de tiempo de espera, procesamiento y errores usando logs simples.</li>
+<li>Implementa alertas manuales revisando los logs periódicamente.</li>
+</ul>
+<hr>
+<h2 id="131-buenas-prácticas-de-auditoría">13.1. Buenas Prácticas de Auditoría </h2>
+<ul>
+<li>Redirige los logs a archivos rotativos para evitar saturar el disco.</li>
+<li>Realiza revisiones periódicas de los logs para detectar patrones anómalos.</li>
+<li>Mantén registros de acceso y errores críticos por al menos 30 días si es posible.</li>
+<li>Documenta los incidentes y las acciones tomadas para futuras referencias.</li>
+</ul>
+<hr>
+<h2 id="14-a-namedespliegueadespliegue-y-operación-en-producción">14. <a name="despliegue" href=""></a>Despliegue y Operación en Producción </h2>
+<ul>
+<li><strong>Requisitos:</strong> Python 3.8+, Selenium, WebDriver Manager, navegadores instalados.</li>
+<li><strong>Entorno virtual:</strong> Usa un entorno virtual para aislar dependencias.</li>
+<li><strong>Firewall:</strong> Abre solo el puerto necesario.</li>
+<li><strong>Actualizaciones:</strong> Mantén Selenium, los drivers y los navegadores actualizados.</li>
+</ul>
+<h3 id="pasos-detallados-de-despliegue">Pasos Detallados de Despliegue </h3>
+<ol>
+<li>
+<p><strong>Duplica el repositorio y accede a la carpeta raíz:</strong></p>
+</li>
+<li>
+<p><strong>Crea y activa un entorno virtual:</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>python <span class="token parameter variable">-m</span> venv venv
+venv<span class="token punctuation">\</span>Scripts<span class="token punctuation">\</span>activate  <span class="token comment"># En Windows</span>
+<span class="token comment"># source venv/bin/activate  # En Linux/Mac</span>
+</code></pre></li>
+<li>
+<p><strong>Instala las dependencias:</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>pip <span class="token function">install</span> <span class="token parameter variable">-r</span> requirements.txt
+</code></pre></li>
+<li>
+<p><strong>Configura el entorno si es necesario</strong> (puerto, navegador, etc.).</p>
+</li>
+<li>
+<p><strong>Ejecuta el servidor:</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>python main.py
+<span class="token comment"># o</span>
+python socket_server.py
+</code></pre></li>
+<li>
+<p><strong>(Opcional) Redirige logs a un archivo:</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>python main.py <span class="token operator">&gt;</span> logs.txt <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span><span class="token file-descriptor important">&amp;1</span>
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="141-diagrama-de-proceso-de-despliegue">14.1. Diagrama de Proceso de Despliegue </h2>
+<p><img src="img/DiagramaDeProcesoDeDespliegue.png" alt="Proceso de despliegue"></p>
+<hr>
+<h2 id="15-a-namefaqapreguntas-frecuentes-faq">15. <a name="faq" href=""></a>Preguntas Frecuentes (FAQ) </h2>
+<p><strong>¿Puedo enviar imágenes o archivos distintos a PDF?</strong><br>
+Actualmente solo PDF, pero puedes extender la lógica para otros tipos.</p>
+<p><strong>¿Puedo enviar mensajes a grupos?</strong><br>
+Sí, modificando el backend para buscar y abrir grupos por nombre.</p>
+<p><strong>¿Qué pasa si WhatsApp Web pide reautenticación?</strong><br>
+Debes abrir el navegador manualmente y escanear el QR una vez por perfil.</p>
+<p><strong>¿Puedo usar el sistema desde internet?</strong><br>
+Sí, pero asegúrate de proteger el WebSocket con autenticación y cifrado.</p>
+<p><strong>¿Puedo enviar mensajes masivos?</strong><br>
+Sí, pero respeta los límites de WhatsApp para evitar bloqueos.</p>
+<p><strong>¿Qué pasa si el servidor se reinicia?</strong><br>
+Los tickets en proceso pueden perderse. Implementa persistencia si es crítico.</p>
+<p><strong>¿Puedo enviar el PDF como base64?</strong><br>
+Sí, el sistema acepta tanto lista de bytes como string base64.</p>
+<hr>
+<h2 id="16-a-namecontactoacontacto-y-soporte">16. <a name="contacto" href=""></a>Contacto y Soporte </h2>
+<ul>
+<li><strong>Desarrollador:</strong> Joseph Rios Henao</li>
+<li><strong>Email:</strong> <a href="mailto:analistadesarrollo8@lafortuna.com.co">analistadesarrollo8@lafortuna.com.co</a></li>
+</ul>
+<hr>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
