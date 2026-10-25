@@ -49,6 +49,7 @@ class WebSocketServer:
                 pdf_data = data.get("PDF", {}).get("data", None)
                 # logger.debug(pdf_data)
                 metadata = data["metadata"]
+                capture_reply = bool(metadata.get("captureReply", False))
                 if pdf_data:
                     # Permitir lista de bytes o base64
                     if isinstance(pdf_data, str):
@@ -76,7 +77,8 @@ class WebSocketServer:
                     client_info=client_str,
                     pdf_path=pdf_path,
                     ws=websocket,
-                    id=client_id
+                    id=client_id,
+                    capture_reply=capture_reply
                 )
                 # Guardar mapping ticket.id -> ws
                 self.ticket_ws_map[ticket.id] = websocket
@@ -160,7 +162,7 @@ class WebSocketServer:
             logger.info(f"🟢 Servidor WebSocket escuchando en ws://{self.host}:{self.port}")
             await asyncio.Future()
 
-    async def notify_ticket_status(self, ticket, status, position=None):
+    async def notify_ticket_status(self, ticket, status, position=None, reply=None):
         ws = ticket.ws or self.ticket_ws_map.get(ticket.id)
         if ws:
             try:
@@ -168,6 +170,12 @@ class WebSocketServer:
                     await ws.send(f"🟡 Tu ticket (ID: {ticket.id}) está siendo procesado.")
                 elif status == "done":
                     await ws.send(f"✅ Tu ticket (ID: {ticket.id}) ha sido procesado y enviado.")
+                    if getattr(ticket, "capture_reply", False):
+                        await ws.send(json.dumps({
+                            "ticketId": ticket.id,
+                            "status": "done",
+                            "reply": reply
+                        }, ensure_ascii=False))
                 elif status == "queued":
                     await ws.send(f"🟢 Ticket encolado (ID: {ticket.id}). Hay {position} ticket(s) antes que el tuyo.")
             except Exception:

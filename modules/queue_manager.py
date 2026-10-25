@@ -24,6 +24,15 @@ class QueueManager:
         except RuntimeError:
             self.main_loop = None
 
+    @staticmethod
+    def _unpack_result(result):
+        """Normaliza el valor de retorno de WebHandler.execute(): puede ser un bool
+        (comportamiento original) o un dict {"success", "reply"} cuando el ticket
+        pidio captura de respuesta para el arnes de pruebas del Punto 3."""
+        if isinstance(result, dict):
+            return result.get("success", False), result.get("reply")
+        return bool(result), None
+
     def process_ticket(self, ticket, browser):
         logger.info(f"🔍 Procesando ticket 📲 {ticket.number} con {browser}")
         web_manager = WebHandler(browser=browser)
@@ -36,14 +45,17 @@ class QueueManager:
                 pass
         logger.info(f"🟡 [{browser}] Procesando ticket 📲 {ticket.number}")
         
+        reply_text = None
         try:
             result = web_manager.execute(
                 message=ticket.message,
                 number=ticket.number,
                 pdf_path=ticket.pdf_path,
-                test=ticket.test
+                test=ticket.test,
+                capture_reply=ticket.capture_reply
             )
-            if not result:
+            success, reply_text = self._unpack_result(result)
+            if not success:
                 web_manager.driver.quit()
                 logger.info(f"🔄 [{browser}] Reintentando ticket 📲 {ticket.number}")
                 web_manager = WebHandler(browser=browser)
@@ -51,8 +63,10 @@ class QueueManager:
                     message=ticket.message,
                     number=ticket.number,
                     pdf_path=ticket.pdf_path,
-                    test=ticket.test
+                    test=ticket.test,
+                    capture_reply=ticket.capture_reply
                 )
+                success, reply_text = self._unpack_result(result)
         except Exception as e:
             logger.error(f"❌ [{browser}] Error al procesar ticket 📲 {ticket.number}: {e}")
             traceback.print_exc()
@@ -60,7 +74,7 @@ class QueueManager:
         # Notificar al cliente que su ticket fue procesado
         if self.notify_callback and self.main_loop:
             try:
-                asyncio.run_coroutine_threadsafe(self.notify_callback(ticket, "done"), self.main_loop)
+                asyncio.run_coroutine_threadsafe(self.notify_callback(ticket, "done", reply=reply_text), self.main_loop)
             except Exception:
                 pass
         if ticket.pdf_path and os.path.exists(ticket.pdf_path):

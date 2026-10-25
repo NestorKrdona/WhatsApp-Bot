@@ -331,3 +331,8 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,dotenv,windows,linux,git,flask
 
+
+### Punto 3 - resultados de pruebas (Garak) ###
+garak_integration/results/*
+!garak_integration/results/.gitkeep
+.DS_Store

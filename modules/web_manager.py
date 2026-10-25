@@ -91,6 +91,45 @@ class BaseWebHandler(ABC):
             else WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(element))
         except: return None
 
+    def count_incoming_messages(self):
+        """Cuenta las burbujas de mensaje entrantes visibles en el chat abierto.
+        Usado como linea base por wait_for_reply()."""
+        try:
+            return len(self.driver.find_elements(By.CSS_SELECTOR, "div.message-in"))
+        except Exception:
+            return 0
+
+    def get_last_incoming_message(self):
+        """Devuelve el texto del ultimo mensaje entrante visible en el chat, o None.
+        Depende de la estructura actual del DOM de WhatsApp Web (clase 'message-in'
+        y 'selectable-text'); si WhatsApp cambia su interfaz, revisar estos selectores."""
+        try:
+            incoming = self.driver.find_elements(By.CSS_SELECTOR, "div.message-in")
+            if not incoming:
+                return None
+            last = incoming[-1]
+            spans = last.find_elements(By.CSS_SELECTOR, "span.selectable-text")
+            text = " ".join(s.text for s in spans if s.text).strip()
+            return text or None
+        except Exception as e:
+            logger.warning(f"⚠️ No se pudo leer el ultimo mensaje entrante: {e}")
+            return None
+
+    def wait_for_reply(self, baseline_count=0, timeout=45, poll=2):
+        """Espera hasta `timeout` segundos a que aparezca un nuevo mensaje entrante
+        (adicional a baseline_count) y devuelve su texto. Usado por el arnes de
+        pruebas del Punto 3 (Garak) para capturar la respuesta real del agente."""
+        waited = 0
+        while waited < timeout:
+            if self.count_incoming_messages() > baseline_count:
+                text = self.get_last_incoming_message()
+                if text:
+                    return text
+            time.sleep(poll)
+            waited += poll
+        logger.warning("⏱️ No se detecto respuesta del agente dentro del tiempo de espera.")
+        return None
+
     def handle_whatsapp_authentication(self):
         """
         Maneja la autenticación de WhatsApp Web, incluyendo el código QR si es necesario.
@@ -115,9 +154,10 @@ class BaseWebHandler(ABC):
             logger.error(f"❌ Error en autenticación de WhatsApp: {e}")
             return False
 
-    def execute(self, message, number="3027032694", pdf_path=None, test=False):
+    def execute(self, message, number="3027032694", pdf_path=None, test=False, capture_reply=False, reply_timeout=45):
         self.start()
         logger.info("🌐 Iniciando el proceso de envío de mensajes...")
+        reply_text = None
         try:
             # Abrir chat o grupo
             if test:
@@ -127,8 +167,11 @@ class BaseWebHandler(ABC):
             
             if not success:
                 logger.error("❌ No se pudo abrir el chat/grupo")
-                return False
+                return {"success": False, "reply": None} if capture_reply else False
             
+            # Linea base de mensajes entrantes (solo se usa cuando capture_reply=True,
+            # es decir, desde el arnes de pruebas del Punto 3)
+            baseline = self.count_incoming_messages() if capture_reply else 0
             # Enviar archivo PDF si se proporciona
             if pdf_path:
                 self.send_pdf(pdf_path)
@@ -136,13 +179,15 @@ class BaseWebHandler(ABC):
             # Enviar mensaje
             if test or not pdf_path:
                 self.send_message(message, only_send=bool(not test))
+            if capture_reply:
+                reply_text = self.wait_for_reply(baseline, timeout=reply_timeout)
             
             sc = ScreenCaptureUploader(self.driver)
             if "link de pago" in message: 
                 image_url = sc.capture_and_upload("envio_exitoso")
                 logger.info(f"📷 Captura subida: {image_url}")
             logger.info("✅ Mensaje enviado exitosamente")
-            return True
+            return {"success": True, "reply": reply_text} if capture_reply else True
             
         except Exception as e:
             logger.error(f"Error detectado: {e}")
@@ -150,7 +195,7 @@ class BaseWebHandler(ABC):
             image_url = sc.capture_and_upload("error_detectado")
             logger.error(f"📷 Captura subida: {image_url}")
             logger.error(f"💔 Error al enviar mensaje: {e}")
-            return False
+            return {"success": False, "reply": reply_text} if capture_reply else False
         finally:
             logger.info("✅ Proceso finalizado, cerrando navegador...")
             time.sleep(2)
