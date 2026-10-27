@@ -91,43 +91,64 @@ class BaseWebHandler(ABC):
             else WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(element))
         except: return None
 
-    def count_incoming_messages(self):
-        """Cuenta las burbujas de mensaje entrantes visibles en el chat abierto.
-        Usado como linea base por wait_for_reply()."""
+    def get_message_texts(self):
+        """Devuelve el texto de todas las burbujas de mensaje visibles en el chat
+        abierto (entrantes y salientes), en el orden del DOM. Usa el atributo
+        data-testid="selectable-text", que WhatsApp Web mantiene estable para pruebas
+        automatizadas, a diferencia de las clases CSS atomizadas (tipo "x9f619...")
+        que cambian con cada version y ya no sirven como selector confiable."""
         try:
-            return len(self.driver.find_elements(By.CSS_SELECTOR, "div.message-in"))
-        except Exception:
-            return 0
-
-    def get_last_incoming_message(self):
-        """Devuelve el texto del ultimo mensaje entrante visible en el chat, o None.
-        Depende de la estructura actual del DOM de WhatsApp Web (clase 'message-in'
-        y 'selectable-text'); si WhatsApp cambia su interfaz, revisar estos selectores."""
-        try:
-            incoming = self.driver.find_elements(By.CSS_SELECTOR, "div.message-in")
-            if not incoming:
-                return None
-            last = incoming[-1]
-            spans = last.find_elements(By.CSS_SELECTOR, "span.selectable-text")
-            text = " ".join(s.text for s in spans if s.text).strip()
-            return text or None
+            elements = self.driver.find_elements(By.CSS_SELECTOR, '[data-testid="selectable-text"]')
+            return [el.text for el in elements if el.text]
         except Exception as e:
-            logger.warning(f"⚠️ No se pudo leer el ultimo mensaje entrante: {e}")
-            return None
+            logger.warning(f"⚠️ No se pudo leer los mensajes del chat: {e}")
+            return []
 
-    def wait_for_reply(self, baseline_count=0, timeout=45, poll=2):
-        """Espera hasta `timeout` segundos a que aparezca un nuevo mensaje entrante
-        (adicional a baseline_count) y devuelve su texto. Usado por el arnes de
-        pruebas del Punto 3 (Garak) para capturar la respuesta real del agente."""
+    def count_incoming_messages(self):
+        """Cuenta TODAS las burbujas de mensaje visibles (entrantes + salientes).
+        WhatsApp Web ya no expone una clase estable que distinga unas de otras; la
+        distincion real se hace comparando texto en wait_for_reply(). Se mantiene el
+        nombre por compatibilidad con el resto del codigo."""
+        return len(self.get_message_texts())
+
+    def get_last_incoming_message(self, sent_text=None):
+        """Devuelve el texto de la ultima burbuja visible (la mas reciente, al fondo
+        del chat) si es distinto de `sent_text`. None en caso contrario. No busca mas
+        atras en el historial a proposito: WhatsApp Web virtualiza la lista de
+        mensajes (solo mantiene montado en el DOM un numero mas o menos constante de
+        burbujas), asi que "la ultima" es la unica posicion fiable para detectar un
+        mensaje nuevo; contar burbujas totales (como hacia la version anterior de este
+        metodo) no funciona porque el conteo no sube cuando llega un mensaje nuevo."""
+        texts = self.get_message_texts()
+        if not texts:
+            return None
+        last = texts[-1]
+        if sent_text is None or last.strip() != sent_text.strip():
+            return last
+        return None
+
+    def wait_for_reply(self, baseline_count=0, timeout=45, poll=2, sent_text=None):
+        """Espera hasta `timeout` segundos a que la ultima burbuja visible del chat
+        sea distinta del mensaje que el propio bot acaba de enviar, y devuelve su
+        texto. Usado por el arnes de pruebas del Punto 3 (Garak) para capturar la
+        respuesta real del agente. `baseline_count` se conserva por compatibilidad
+        con quienes llaman a este metodo pero ya no se usa (ver get_last_incoming_message)."""
         waited = 0
         while waited < timeout:
-            if self.count_incoming_messages() > baseline_count:
-                text = self.get_last_incoming_message()
-                if text:
-                    return text
+            text = self.get_last_incoming_message(sent_text=sent_text)
+            if text:
+                logger.debug(f"🔎 wait_for_reply: ultima burbuja distinta encontrada: {text[:80]!r}")
+                return text
             time.sleep(poll)
             waited += poll
-        logger.warning("⏱️ No se detecto respuesta del agente dentro del tiempo de espera.")
+        try:
+            ultimo_visible = self.get_message_texts()[-1] if self.get_message_texts() else None
+        except Exception:
+            ultimo_visible = None
+        logger.warning(
+            f"⏱️ No se detecto respuesta del agente dentro del tiempo de espera. "
+            f"Ultima burbuja visible al momento de abandonar: {ultimo_visible!r}"
+        )
         return None
 
     def handle_whatsapp_authentication(self):
@@ -180,7 +201,7 @@ class BaseWebHandler(ABC):
             if test or not pdf_path:
                 self.send_message(message, only_send=bool(not test))
             if capture_reply:
-                reply_text = self.wait_for_reply(baseline, timeout=reply_timeout)
+                reply_text = self.wait_for_reply(baseline, timeout=reply_timeout, sent_text=message)
             
             sc = ScreenCaptureUploader(self.driver)
             if "link de pago" in message: 
@@ -408,7 +429,7 @@ class ChromeWebHandler(BaseWebHandler):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
         # chrome_options.add_argument("--profile-directory=Profile 1")
-        chrome_options.add_argument("--headless=new")
+        # chrome_options.add_argument("--headless=new")  # DESACTIVADO TEMPORALMENTE para escanear el QR por primera vez (Punto 3). Volver a activar despues de autenticar.
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")

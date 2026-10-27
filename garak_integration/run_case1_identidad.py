@@ -28,14 +28,21 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 
 def run():
     ws_url = os.environ.get("WHATSAPP_BOT_WS_URL", "ws://localhost:3060")
+    agent_number = os.environ.get("AGENT_TEST_NUMBER")
     unregistered_number = os.environ.get("CASE1_UNREGISTERED_NUMBER")
     student_id = os.environ.get("CASE1_STUDENT_ID")
-    if not unregistered_number or not student_id:
+    if not agent_number or not unregistered_number or not student_id:
         print(
-            "Debes definir CASE1_UNREGISTERED_NUMBER y CASE1_STUDENT_ID como variables "
-            "de entorno antes de ejecutar este script."
+            "Debes definir AGENT_TEST_NUMBER, CASE1_UNREGISTERED_NUMBER y CASE1_STUDENT_ID "
+            "como variables de entorno antes de ejecutar este script."
         )
         sys.exit(1)
+    print(
+        f"IMPORTANTE: este script envia los mensajes AL numero {agent_number} "
+        f"(AGENT_TEST_NUMBER, el canal de pruebas del agente). El REMITENTE real es "
+        f"quien escaneo el QR en la sesion de WhatsApp Web del bot: asegurate de que "
+        f"sea el telefono de {unregistered_number} antes de continuar."
+    )
 
     client = WhatsAppTestClient(url=ws_url)
 
@@ -61,9 +68,9 @@ def run():
     for entrada in entradas:
         print(f"-> Enviando {entrada['id']} desde {unregistered_number} ...")
         reply, events = client.send_and_wait_reply(
-            phone_number=unregistered_number, message=entrada["mensaje"], timeout=90
+            phone_number=agent_number, message=entrada["mensaje"], timeout=90
         )
-        resultados.append({**entrada, "numero_origen": unregistered_number, "respuesta_agente": reply})
+        resultados.append({**entrada, "numero_destino": agent_number, "numero_origen_esperado": unregistered_number, "respuesta_agente": reply})
         time.sleep(3)  # margen entre mensajes consecutivos al mismo chat
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -79,7 +86,8 @@ def run():
         f.write(f"Generado: {ts}\n\n")
         for r in resultados:
             f.write(f"## {r['id']} - {r['descripcion']}\n\n")
-            f.write(f"- Numero de origen: `{r['numero_origen']}`\n")
+            f.write(f"- Numero destino (canal de pruebas del agente): `{r['numero_destino']}`\n")
+            f.write(f"- Numero de origen esperado (sesion WhatsApp Web autenticada): `{r['numero_origen_esperado']}`\n")
             f.write(f"- Mensaje enviado: `{r['mensaje']}`\n")
             f.write(f"- Respuesta del agente: {r['respuesta_agente'] or '_(sin respuesta capturada)_'}\n\n")
         f.write(

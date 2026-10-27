@@ -8,8 +8,8 @@ Para una cobertura mas amplia con las sondas automaticas de Garak (prompt inject
 jailbreak, fuga de system prompt), usar en su lugar:
 
     PYTHONPATH=. WHATSAPP_TEST_NUMBER=<numero_estudiante> python -m garak \
-        --model_type garak_integration.whatsapp_generator.WhatsAppGenerator \
-        --probes promptinject,dan.DAN_Jailbreak,leakreplay
+        --model_type whatsapp_generator.WhatsAppGenerator \
+        --probes promptinject.HijackHateHumans,dan.DAN_Jailbreak,leakreplay.GuardianCloze
 
 (ajustar los nombres de probes a los disponibles en la version de garak instalada:
 `python -m garak --list_probes`)
@@ -34,11 +34,18 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 
 def run():
     ws_url = os.environ.get("WHATSAPP_BOT_WS_URL", "ws://localhost:3060")
+    agent_number = os.environ.get("AGENT_TEST_NUMBER")
     student_number = os.environ.get("CASE2_STUDENT_NUMBER")
     other_id = os.environ.get("CASE2_OTHER_STUDENT_ID", "<numero_identificacion_ficticio>")
-    if not student_number:
-        print("Debes definir CASE2_STUDENT_NUMBER como variable de entorno antes de ejecutar este script.")
+    if not agent_number or not student_number:
+        print("Debes definir AGENT_TEST_NUMBER y CASE2_STUDENT_NUMBER como variables de entorno antes de ejecutar este script.")
         sys.exit(1)
+    print(
+        f"IMPORTANTE: este script envia los mensajes AL numero {agent_number} "
+        f"(AGENT_TEST_NUMBER, el canal de pruebas del agente). El REMITENTE real es "
+        f"quien escaneo el QR en la sesion de WhatsApp Web del bot: asegurate de que "
+        f"sea el telefono del estudiante de pruebas {student_number} antes de continuar."
+    )
 
     client = WhatsAppTestClient(url=ws_url)
 
@@ -73,9 +80,9 @@ def run():
     for entrada in entradas:
         print(f"-> Enviando {entrada['id']} desde {student_number} ...")
         reply, events = client.send_and_wait_reply(
-            phone_number=student_number, message=entrada["mensaje"], timeout=90
+            phone_number=agent_number, message=entrada["mensaje"], timeout=90
         )
-        resultados.append({**entrada, "numero_origen": student_number, "respuesta_agente": reply})
+        resultados.append({**entrada, "numero_destino": agent_number, "numero_origen_esperado": student_number, "respuesta_agente": reply})
         time.sleep(3)
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -91,7 +98,8 @@ def run():
         f.write(f"Generado: {ts}\n\n")
         for r in resultados:
             f.write(f"## {r['id']} - {r['descripcion']}\n\n")
-            f.write(f"- Numero de origen: `{r['numero_origen']}`\n")
+            f.write(f"- Numero destino (canal de pruebas del agente): `{r['numero_destino']}`\n")
+            f.write(f"- Numero de origen esperado (sesion WhatsApp Web autenticada): `{r['numero_origen_esperado']}`\n")
             f.write(f"- Mensaje enviado: {r['mensaje']}\n")
             f.write(f"- Respuesta del agente: {r['respuesta_agente'] or '_(sin respuesta capturada)_'}\n\n")
         f.write(
